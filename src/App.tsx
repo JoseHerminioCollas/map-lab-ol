@@ -1,24 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
+import * as olProj from 'ol/proj'
+import Map from './components/Map';
 import './App.css';
+import cities from './data/cities';
+import tileUrls from './data/tile-urls';
+
+const selectedCity = 'seattle';
+const centerLonLat3857 = olProj.transform(
+  [cities[selectedCity][1], cities[selectedCity][0]], 'EPSG:4326', 'EPSG:3857'
+);
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Map
+        tileUrl={tileUrls.NatGeo_World_Map}
+        center={centerLonLat3857}
+      />
     </div>
   );
 }
