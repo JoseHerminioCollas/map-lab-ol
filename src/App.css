@@ -1,6 +1,11 @@
-.openlayer  {
+.App {
+  display: flex;
   position: absolute;
+  height: 100%;
   width: 100%;
+}
+.openlayer {
+  width: 50%;
   height: 100%;
 }
 

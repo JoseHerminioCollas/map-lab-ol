@@ -7,7 +7,6 @@ import XYZ from 'ol/source/XYZ'
 type IMap = {
   ({ center, tileUrl }: { center: number[], tileUrl: any }): React.ReactElement
 }
-
 const Map: IMap = ({ center, tileUrl }) => {
   const mapElement: any = useRef()
   useEffect(() => {
@@ -21,7 +20,7 @@ const Map: IMap = ({ center, tileUrl }) => {
       view: new View({
         projection: 'EPSG:3857',
         center,
-        zoom: 12,
+        zoom: 3,
       }),
     }).on('pointerdrag', (e: any) => {
       console.log(e.map.getView().getCenter())

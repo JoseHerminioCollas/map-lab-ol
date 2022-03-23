@@ -21,6 +21,12 @@ const tileUrls = {
         url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
         attributions: ATTRIBUTION,
     },
+    gibs: {
+        url: 'https://gibs-{a-c}.earthdata.nasa.gov/wmts/epsg3857/best/' +
+        'MODIS_Terra_CorrectedReflectance_TrueColor/default/2013-06-15/' +
+        'GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg',
+        attributions: 'xxxx'
+    },
 }
 
 export default tileUrls;
