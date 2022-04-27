@@ -3,14 +3,22 @@ import OpenLayerMap from 'ol/Map'
 import View from 'ol/View'
 import TileLayer from 'ol/layer/Tile'
 import XYZ from 'ol/source/XYZ'
+import * as olProj from 'ol/proj'
+import cities from '../../data/cities';
+import { MapCenter } from '../../control/map-center'
 
 type IMap = {
-  ({ center, tileUrl }: { center: number[], tileUrl: any }): React.ReactElement
+  ({ id, center, tileUrl }: { id: number, center: MapCenter, tileUrl: any }): React.ReactElement
 }
-const Map: IMap = ({ center, tileUrl }) => {
+const selectedCity = 'seattle';
+const centerLonLat3857 = olProj.transform(
+  [cities[selectedCity][1], cities[selectedCity][0]], 'EPSG:4326', 'EPSG:3857'
+);
+
+const Map: IMap = ({ id, center, tileUrl }) => {
   const mapElement: any = useRef()
   useEffect(() => {
-    new OpenLayerMap({
+    const map: any = new OpenLayerMap({
       target: mapElement.current,
       layers: [
         new TileLayer({
@@ -19,13 +27,21 @@ const Map: IMap = ({ center, tileUrl }) => {
       ],
       view: new View({
         projection: 'EPSG:3857',
-        center,
+        center: centerLonLat3857,
         zoom: 3,
       }),
     }).on('pointerdrag', (e: any) => {
-      console.log(e.map.getView().getCenter())
+      const latLong = olProj.toLonLat(e.map.getView().getCenter())
+      center.add([latLong[1], latLong[0]], id)
+      console.log('id', id)
     })
-  }, [center, tileUrl])
+    center.addEventListener(center => {
+      if (map) {
+        const lLConverted = olProj.fromLonLat([center[1], center[0]])
+        map.target.getView().setCenter(lLConverted)
+      }
+    }, id)
+  }, [center, id, tileUrl])
 
   return (
     <div ref={mapElement} className="openlayer" />
