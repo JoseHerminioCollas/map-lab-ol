@@ -22,9 +22,7 @@ const addEventListener: AddEventListener = (listener, id) => {
         .pipe(throttle(() => interval(200)), filter((center: Center) => center.id !== id))
         .subscribe((center: Center) => {
             listener(center.center)
-        },
-            console.log,
-            () => { })
+        })
 }
 const add: Add = (center, id) => {
     centers$.next({ center, id })
