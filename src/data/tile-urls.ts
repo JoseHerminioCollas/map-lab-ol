@@ -23,9 +23,9 @@ const tileUrls = {
     },
     gibs: {
         url: 'https://gibs-{a-c}.earthdata.nasa.gov/wmts/epsg3857/best/' +
-        'MODIS_Terra_CorrectedReflectance_TrueColor/default/2013-06-15/' +
-        'GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg',
-        attributions: 'xxxx'
+            'MODIS_Terra_CorrectedReflectance_TrueColor/default/2013-06-15/' +
+            'GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg',
+        attributions: '<a href="https://wiki.earthdata.nasa.gov/display/GIBS">NASA EOSDIS GIBS</a>'
     },
 }
 
