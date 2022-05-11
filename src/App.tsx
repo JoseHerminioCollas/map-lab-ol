@@ -1,17 +1,16 @@
 import React from 'react';
-import Map from './components/Map';
+import { IIconProps } from '@fluentui/react';
+import { IconButton } from '@fluentui/react/lib/Button';
+import { initializeIcons } from '@fluentui/font-icons-mdl2';
+import { Dropdown, IDropdownStyles } from '@fluentui/react/lib/Dropdown';
 import './App.css';
+import Map from './components/Map';
 import tileUrls from './data/tile-urls';
 import mapCenter from './control/map-center';
 import mapZoom from './control/map-zoom';
 import gibsVis from './control/GIBSVis';
-import { IIconProps } from '@fluentui/react';
-import { IconButton } from '@fluentui/react/lib/Button';
-import { initializeIcons } from '@fluentui/font-icons-mdl2';
-import { gibs } from './data/gibs';
-import { Dropdown, IDropdownStyles } from '@fluentui/react/lib/Dropdown';
 
-const gibsVisOptions = Object.entries(gibs)
+const gibsVisOptions = Object.entries(gibsVis.getAll())
   .map(([, b]) => ({ key: b.identifier, text: b.name }))
 const dropdownStyles: Partial<IDropdownStyles> = {
   dropdown: { width: 300 },
@@ -39,8 +38,8 @@ function App() {
         gibsVis={gibsVis}
       />
       <Dropdown
-        placeholder="Select an option"
-        label="Basic uncontrolled example"
+        placeholder="Select a GIBS product"
+        label="Select a GIBS product"
         options={gibsVisOptions}
         styles={dropdownStyles}
         onChange={(e, item) => {
@@ -58,8 +57,8 @@ function App() {
       />
       <IconButton
         iconProps={minuz}
-        title="Emoji"
-        ariaLabel="Emoji"
+        title="Zoom Out"
+        ariaLabel="Zoom Out"
         disabled={false} checked={false}
         onClick={mapZoom.zoomOut}
       />

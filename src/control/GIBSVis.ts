@@ -3,7 +3,7 @@ import { throttle } from 'rxjs/operators';
 import gibs, { Gibs, Visualization } from '../data/gibs';
 
 type AddListener = (listener: (visualization: Visualization) => void) => void
-type Set = (identification: string) => void
+type Set = (identifier: string) => void
 type Get = () => Visualization;
 type GetAll = () => Gibs;
 export interface GIBSVisI {
@@ -15,7 +15,7 @@ export interface GIBSVisI {
 const gibsVis$: BehaviorSubject<Visualization> = new BehaviorSubject(
     gibs.MODIS_Terra_CorrectedReflectance_TrueColor,
 )
-const set: Set = (visId) => gibsVis$.next(gibs[visId])
+const set: Set = (identifier) => gibsVis$.next(gibs[identifier])
 const get: Get = () => gibsVis$.value;
 const getAll: GetAll = () => gibs;
 const addListener: AddListener = (listener) => {

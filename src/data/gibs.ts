@@ -29,6 +29,8 @@ export interface Visualization {
 export interface Gibs {
     [key: string]: Visualization
 }
+export const gibsImageServiceUrl = (product: string) =>
+    `https://gibs-{a-c}.earthdata.nasa.gov/wmts/epsg3857/best/${product}/default/2021-01-01/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`
 export const gibs: Gibs =
 {
     MODIS_Terra_CorrectedReflectance_TrueColor:
