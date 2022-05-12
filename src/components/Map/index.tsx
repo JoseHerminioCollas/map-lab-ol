@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import OpenLayerMap from 'ol/Map';
+import atrributionControl from 'ol/control/Attribution';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
@@ -23,7 +24,7 @@ const Map: IMap = ({ id, center, zoom, tileUrl, mapSource }) => {
   const mapElement: any = useRef();
   useEffect(() => {
     const map: any = new OpenLayerMap({
-      controls: [], // TODO add atribution
+      controls: [new atrributionControl()],
       target: mapElement.current,
       layers: [
         new TileLayer({
@@ -63,7 +64,6 @@ const Map: IMap = ({ id, center, zoom, tileUrl, mapSource }) => {
       map.addLayer(new TileLayer({
         source: new XYZ({
           url: source,
-          // attributions: ['xxx']
         }),
       }));
     })
