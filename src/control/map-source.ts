@@ -1,20 +1,21 @@
 import { BehaviorSubject } from 'rxjs';
 
-export type MapSourceService = {
-    get: () => any
-    set: (val: string) => any
-    listen: (cb: any) => any
+type MapSourceService = {
+    get: () => string
+    set: (source: string) => void
+    listen: (callback: (source: string) => void) => { unsubscribe: () => void }
 }
-export type MapSource = (initValue: string) => MapSourceService;
+type MapSource = (initValue: string) => MapSourceService;
 
 const mapSource: MapSource = (initValue) => {
     const source$: BehaviorSubject<string> = new BehaviorSubject(initValue);
 
     return {
         get: () => source$.value,
-        set: (val: string) => source$.next(val),
-        listen: (cb: any) => source$.subscribe(val => cb(val)),
+        set: (newSource: string) => source$.next(newSource),
+        listen: callback => source$.subscribe(val => callback(val)),
     }
 }
 
+export type { MapSourceService };
 export default mapSource;

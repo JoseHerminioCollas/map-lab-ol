@@ -22,9 +22,8 @@ function App() {
   initializeIcons();
   const add: IIconProps = { iconName: 'CalculatorAddition' };
   const minuz: IIconProps = { iconName: 'CalculatorSubtract' }
-  const url = gibsImageServiceUrl('MODIS_Terra_CorrectedReflectance_TrueColor');
-  const ms = mapSource(url)
-  const ms2 = mapSource('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}')
+  const gibsMapSource = mapSource(gibsImageServiceUrl(gibsVis.get().identifier))
+  const navMapSource = mapSource(tileUrls.NatGeo_World_Map.url)
 
   return (
     <div className="App">
@@ -33,14 +32,14 @@ function App() {
         tileUrl={tileUrls.gibs}
         center={mapCenter}
         zoom={mapZoom}
-        mapSource={ms}
+        mapSource={gibsMapSource}
       />
       <Map
         id={20}
         tileUrl={tileUrls.NatGeo_World_Map}
         center={mapCenter}
         zoom={mapZoom}
-        mapSource={ms2}
+        mapSource={navMapSource}
       />
       <Dropdown
         placeholder="Select a GIBS product"
@@ -48,24 +47,24 @@ function App() {
         options={gibsVisOptions}
         styles={dropdownStyles}
         onChange={(e, item) => {
-          if (item) {
-            const url = gibsImageServiceUrl(item.key.toString());
-            ms.set(url)
-          }
+          if (!item) return;
+          gibsMapSource.set(gibsImageServiceUrl(item.key.toString()));
         }}
       />
       <IconButton
         iconProps={add}
         title="Zoom In"
         ariaLabel="Zoom In"
-        disabled={false} checked={false}
+        disabled={false}
+        checked={false}
         onClick={mapZoom.zoomIn}
       />
       <IconButton
         iconProps={minuz}
         title="Zoom Out"
         ariaLabel="Zoom Out"
-        disabled={false} checked={false}
+        disabled={false}
+        checked={false}
         onClick={mapZoom.zoomOut}
       />
     </div>

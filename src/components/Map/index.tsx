@@ -20,16 +20,15 @@ type IMap = {
 }
 
 const Map: IMap = ({ id, center, zoom, tileUrl, mapSource }) => {
-  const mapElement: any = useRef()
+  const mapElement: any = useRef();
   useEffect(() => {
-    const mapLayer = new TileLayer({
-      source: new XYZ(tileUrl),
-    })
     const map: any = new OpenLayerMap({
-      controls: [],
+      controls: [], // TODO add atribution
       target: mapElement.current,
       layers: [
-        mapLayer
+        new TileLayer({
+          source: new XYZ(tileUrl),
+        })
       ],
       view: new View({
         projection: 'EPSG:3857',
@@ -61,9 +60,12 @@ const Map: IMap = ({ id, center, zoom, tileUrl, mapSource }) => {
       map.getView().setCenter(center)
     }, id)
     const sub = mapSource.listen((source: string) => {
-      mapLayer.setSource(new XYZ({
-        url: source,
-      }))
+      map.addLayer(new TileLayer({
+        source: new XYZ({
+          url: source,
+          // attributions: ['xxx']
+        }),
+      }));
     })
     return () => { sub.unsubscribe() }
   }, [center, id, tileUrl])
