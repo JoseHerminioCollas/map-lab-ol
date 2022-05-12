@@ -8,7 +8,9 @@ import Map from './components/Map';
 import tileUrls from './data/tile-urls';
 import mapCenter from './control/map-center';
 import mapZoom from './control/map-zoom';
+import mapSource from './control/map-source';
 import gibsVis from './control/GIBSVis';
+import { gibsImageServiceUrl } from './data/gibs';
 
 const gibsVisOptions = Object.entries(gibsVis.getAll())
   .map(([, b]) => ({ key: b.identifier, text: b.name }))
@@ -20,6 +22,9 @@ function App() {
   initializeIcons();
   const add: IIconProps = { iconName: 'CalculatorAddition' };
   const minuz: IIconProps = { iconName: 'CalculatorSubtract' }
+  const url = gibsImageServiceUrl('MODIS_Terra_CorrectedReflectance_TrueColor');
+  const ms = mapSource(url)
+  const ms2 = mapSource('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}')
 
   return (
     <div className="App">
@@ -28,14 +33,14 @@ function App() {
         tileUrl={tileUrls.gibs}
         center={mapCenter}
         zoom={mapZoom}
-        gibsVis={gibsVis}
+        mapSource={ms}
       />
       <Map
         id={20}
         tileUrl={tileUrls.NatGeo_World_Map}
         center={mapCenter}
         zoom={mapZoom}
-        gibsVis={gibsVis}
+        mapSource={ms2}
       />
       <Dropdown
         placeholder="Select a GIBS product"
@@ -44,7 +49,8 @@ function App() {
         styles={dropdownStyles}
         onChange={(e, item) => {
           if (item) {
-            gibsVis.set(item.key.toString())
+            const url = gibsImageServiceUrl(item.key.toString());
+            ms.set(url)
           }
         }}
       />

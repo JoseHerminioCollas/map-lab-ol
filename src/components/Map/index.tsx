@@ -6,21 +6,20 @@ import XYZ from 'ol/source/XYZ';
 import * as olInteraction from 'ol/interaction';
 import { MapCenter } from '../../control/map-center';
 import { MapZoom } from '../../control/map-zoom';
-import { GIBSVisI } from '../../control/GIBSVis';
-import { gibsImageServiceUrl } from '../../data/gibs';
+import { MapSourceService } from '../../control/map-source';
 
 type IMap = {
-  ({ id, center, zoom, tileUrl }:
+  ({ id, center, zoom, tileUrl, mapSource }:
     {
       id: number,
       center: MapCenter,
       zoom: MapZoom,
       tileUrl: any,
-      gibsVis: GIBSVisI
+      mapSource: MapSourceService,
     }): React.ReactElement
 }
 
-const Map: IMap = ({ id, center, zoom, tileUrl, gibsVis }) => {
+const Map: IMap = ({ id, center, zoom, tileUrl, mapSource }) => {
   const mapElement: any = useRef()
   useEffect(() => {
     const mapLayer = new TileLayer({
@@ -61,11 +60,12 @@ const Map: IMap = ({ id, center, zoom, tileUrl, gibsVis }) => {
     center.addEventListener(center => {
       map.getView().setCenter(center)
     }, id)
-    gibsVis.addListener(gV => {
+    const sub = mapSource.listen((source: string) => {
       mapLayer.setSource(new XYZ({
-        url: gibsImageServiceUrl(gV.identifier),
+        url: source,
       }))
     })
+    return () => { sub.unsubscribe() }
   }, [center, id, tileUrl])
 
   return (
