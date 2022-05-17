@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IIconProps } from '@fluentui/react';
 import { IconButton } from '@fluentui/react/lib/Button';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
@@ -10,7 +10,7 @@ import mapCenter from './control/map-center';
 import mapZoom from './control/map-zoom';
 import mapSource from './control/map-source';
 import gibsVis from './control/GIBSVis';
-import { gibsImageServiceUrl } from './data/gibs';
+// import { gibsImageServiceUrl } from './control/GIBSVis';
 
 const gibsVisOptions = Object.entries(gibsVis.getAll())
   .map(([, b]) => ({ key: b.identifier, text: b.name }))
@@ -22,8 +22,13 @@ function App() {
   initializeIcons();
   const add: IIconProps = { iconName: 'CalculatorAddition' };
   const minuz: IIconProps = { iconName: 'CalculatorSubtract' }
-  const gibsMapSource = mapSource(gibsImageServiceUrl(gibsVis.get().identifier))
+  const gibsMapSource = mapSource(gibsVis.getSourceUrl())
   const navMapSource = mapSource(tileUrls.NatGeo_World_Map.url)
+  useEffect(() => {
+    gibsVis.listenSourceUrl((vis: any) => {
+      gibsMapSource.set(vis);
+    })
+  }, [])
 
   return (
     <div className="App">
@@ -48,7 +53,7 @@ function App() {
         styles={dropdownStyles}
         onChange={(e, item) => {
           if (!item) return;
-          gibsMapSource.set(gibsImageServiceUrl(item.key.toString()));
+          gibsVis.setVis(item.key.toString())
         }}
       />
       <IconButton
