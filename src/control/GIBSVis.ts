@@ -16,11 +16,13 @@ export interface Visualization {
 }
 type GetSourceUrl = () => string;
 type Set = (identifier: string) => void
+type SetDay = (day: [number, number, number]) => void
 type GetAll = () => Gibs;
 type ListenSourceUrl = (listener: (sourceUrl: string) => void) => void
 
 export interface GIBSVisI {
     setVis: Set
+    setDay: SetDay
     getAll: GetAll
     getSourceUrl: GetSourceUrl
     listenSourceUrl: ListenSourceUrl
@@ -40,10 +42,11 @@ gibsVis$.pipe(
     const fullUrl = `https://gibs-{a-c}.earthdata.nasa.gov/wmts/epsg3857/best/${visualization.identifier}/default/${dayStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`
     sourceUrl$.next(fullUrl)
 })
-const setVis: Set = (identifier) => gibsVis$.next(gibs[identifier])
+const setVis: Set = identifier => gibsVis$.next(gibs[identifier])
+const setDay: SetDay = day => day$.next(day)
 const getAll: GetAll = () => gibs;
-const listenSourceUrl = (listener: (arg0: string) => void) => {
-    sourceUrl$.subscribe(v => listener(v))
+const listenSourceUrl: ListenSourceUrl = listener => {
+    sourceUrl$.subscribe(sourceUrl => listener(sourceUrl))
 }
 export const getSourceUrl: GetSourceUrl = () => sourceUrl$.value
 const GIBSVis: GIBSVisI = {
@@ -51,6 +54,7 @@ const GIBSVis: GIBSVisI = {
     getAll,
     getSourceUrl,
     listenSourceUrl,
+    setDay,
 }
 
 export default GIBSVis;
