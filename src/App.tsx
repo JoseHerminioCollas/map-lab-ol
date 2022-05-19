@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IIconProps } from '@fluentui/react';
 import { IconButton } from '@fluentui/react/lib/Button';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
@@ -27,11 +27,15 @@ function App() {
   const minuz: IIconProps = { iconName: 'CalculatorSubtract' }
   const gibsMapSource = mapSource(gibsVis.getSourceUrl())
   const navMapSource = mapSource(tileUrls.NatGeo_World_Map.url)
+  const [dPData, setDPData] = useState(gibsVis.getMinMax())
   useEffect(() => {
-    gibsVis.listenSourceUrl((vis: any) => {
+    gibsVis.listenSourceUrl(vis => {
       gibsMapSource.set(vis);
     })
-  }, [])
+    gibsVis.listenMinMax(mm => {
+      setDPData(mm)
+    })
+  }, [gibsMapSource])
 
   return (
     <div className="App">
@@ -60,11 +64,13 @@ function App() {
         }}
       />
       <DatePicker
-        isRequired
-        label="Date required (with label)"
-        placeholder="Select a date..."
+        label="Date "
+        placeholder={dPData.max.toDateString()}
         ariaLabel="Select a date"
         className={datePickerStyles.control}
+        initialPickerDate={dPData.max}
+        minDate={dPData.min}
+        maxDate={dPData.max}
         // DatePicker uses English strings by default. For localized apps, you must override this prop.
         strings={defaultDatePickerStrings}
         onSelectDate={date => {
