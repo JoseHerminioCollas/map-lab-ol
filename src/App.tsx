@@ -54,7 +54,7 @@ function App() {
         mapSource={navMapSource}
       />
       <Dropdown
-        placeholder="Select a GIBS product"
+        defaultSelectedKey={gibsVis.getVis().identifier}
         label="Select a GIBS product"
         options={gibsVisOptions}
         styles={dropdownStyles}
@@ -64,6 +64,7 @@ function App() {
         }}
       />
       <DatePicker
+        value={dPData.max}
         label="Date "
         placeholder={dPData.max.toDateString()}
         ariaLabel="Select a date"
