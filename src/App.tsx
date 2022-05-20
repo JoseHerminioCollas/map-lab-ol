@@ -4,6 +4,9 @@ import { IconButton } from '@fluentui/react/lib/Button';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { Dropdown, IDropdownStyles } from '@fluentui/react/lib/Dropdown';
 import { DatePicker, mergeStyleSets, defaultDatePickerStrings } from '@fluentui/react';
+import {
+  MessageBar,
+} from '@fluentui/react';
 import './App.css';
 import Map from './components/Map';
 import tileUrls from './data/tile-urls';
@@ -39,64 +42,86 @@ function App() {
 
   return (
     <div className="App">
-      <Map
-        id={30}
-        tileUrl={tileUrls.gibs}
-        center={mapCenter}
-        zoom={mapZoom}
-        mapSource={gibsMapSource}
-      />
-      <Map
-        id={20}
-        tileUrl={tileUrls.NatGeo_World_Map}
-        center={mapCenter}
-        zoom={mapZoom}
-        mapSource={navMapSource}
-      />
-      <Dropdown
-        defaultSelectedKey={gibsVis.getVis().identifier}
-        label="Select a GIBS product"
-        options={gibsVisOptions}
-        styles={dropdownStyles}
-        onChange={(e, item) => {
-          if (!item) return;
-          gibsVis.setVis(item.key.toString())
-        }}
-      />
-      <DatePicker
-        value={dPData.max}
-        label="Date "
-        placeholder={dPData.max.toDateString()}
-        ariaLabel="Select a date"
-        className={datePickerStyles.control}
-        initialPickerDate={dPData.max}
-        minDate={dPData.min}
-        maxDate={dPData.max}
-        // DatePicker uses English strings by default. For localized apps, you must override this prop.
-        strings={defaultDatePickerStrings}
-        onSelectDate={date => {
-          if (!date) return
-          gibsVis.setDay(
-            [date.getFullYear(), date.getMonth() + 1, date.getDate()]
-          )
-        }}
-      />
-      <IconButton
-        iconProps={add}
-        title="Zoom In"
-        ariaLabel="Zoom In"
-        disabled={false}
-        checked={false}
-        onClick={mapZoom.zoomIn}
-      />
-      <IconButton
-        iconProps={minuz}
-        title="Zoom Out"
-        ariaLabel="Zoom Out"
-        disabled={false}
-        checked={false}
-        onClick={mapZoom.zoomOut}
-      />
+      <div className='a'>
+        <Map
+          id={30}
+          tileUrl={tileUrls.gibs}
+          center={mapCenter}
+          zoom={mapZoom}
+          mapSource={gibsMapSource}
+        />
+      </div>
+      <div className='b'>
+        <Map
+          id={20}
+          tileUrl={tileUrls.NatGeo_World_Map}
+          center={mapCenter}
+          zoom={mapZoom}
+          mapSource={navMapSource}
+        />
+      </div>
+      <div className='c'>
+        <Dropdown
+          defaultSelectedKey={gibsVis.getVis().identifier}
+          label="Select a GIBS product"
+          options={gibsVisOptions}
+          styles={dropdownStyles}
+          onChange={(e, item) => {
+            if (!item) return;
+            gibsVis.setVis(item.key.toString())
+          }}
+        />
+        <DatePicker
+          value={dPData.max}
+          label="Date "
+          placeholder={dPData.max.toDateString()}
+          ariaLabel="Select a date"
+          className={datePickerStyles.control}
+          initialPickerDate={dPData.max}
+          minDate={dPData.min}
+          maxDate={dPData.max}
+          // DatePicker uses English strings by default. For localized apps, you must override this prop.
+          strings={defaultDatePickerStrings}
+          onSelectDate={date => {
+            if (!date) return
+            gibsVis.setDay(
+              [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+            )
+          }}
+        />
+        <IconButton
+          iconProps={add}
+          title="Zoom In"
+          ariaLabel="Zoom In"
+          disabled={false}
+          checked={false}
+          onClick={mapZoom.zoomIn}
+        />
+        <IconButton
+          iconProps={minuz}
+          title="Zoom Out"
+          ariaLabel="Zoom Out"
+          disabled={false}
+          checked={false}
+          onClick={mapZoom.zoomOut}
+        />
+      </div>
+      <div className='message-bar'>
+        <h1>View
+          <a href='https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-components/gibs'> GIBS </a>
+          Visualizations</h1>
+        <dl>
+          <dt>Current Visualization</dt>
+          <dd>{gibsVis.getVis().name}</dd>
+        </dl>
+      </div>
+      {/* <MessageBar className='message-bar'>
+        <h1>View GIBS Visualizations</h1>
+        <dl>
+          <dt>Current Visualization</dt>
+          <dd>{gibsVis.getVis().name}</dd>
+        </dl>
+      </MessageBar> */}
     </div>
   );
 }
