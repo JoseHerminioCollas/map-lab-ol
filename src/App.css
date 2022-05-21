@@ -12,20 +12,40 @@
 }
 
 .a {
-  background-color: red;
   height: 70%;
 }
 
 .b {
-  background-color: blue;
   height: 20%;
 }
 
 .c {
-  background-color: wheat;
   display: flex;
   flex-wrap: wrap;
-  height: 10%;
+  justify-content: center;
+  padding: 12px;
+}
+
+.c div {
+  margin: 0 0.4em;
+}
+
+.d {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.d button {
+  background: #eee;
+  margin: 0.9px;
+  border-radius: 10%;
+}
+
+.message-bar {
+  background: #eee;
+  padding: 0.5em;
 }
 
 .message-bar h1 {
@@ -51,4 +71,9 @@
   display: inline;
   margin: 0.5em;
   font-size: 0.9em;
+}
+/* the FluentUI style does not account for the scenario 
+use the class: .ms-TextField-wrapper */
+.ms-TextField-wrapper {
+  display: flex;
 }

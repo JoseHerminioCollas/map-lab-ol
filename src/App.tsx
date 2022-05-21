@@ -3,27 +3,25 @@ import { IIconProps } from '@fluentui/react';
 import { IconButton } from '@fluentui/react/lib/Button';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { Dropdown, IDropdownStyles } from '@fluentui/react/lib/Dropdown';
-import { DatePicker, mergeStyleSets, defaultDatePickerStrings } from '@fluentui/react';
-import {
-  MessageBar,
-} from '@fluentui/react';
+import { DatePicker, defaultDatePickerStrings } from '@fluentui/react';
 import './App.css';
 import Map from './components/Map';
 import tileUrls from './data/tile-urls';
 import mapCenter from './control/map-center';
 import mapZoom from './control/map-zoom';
 import mapSource from './control/map-source';
-import gibsVis from './control/GIBSVis';
+import gibsVis from 'control/GIBSVis';
 
 const gibsVisOptions = Object.entries(gibsVis.getAll())
   .map(([, b]) => ({ key: b.identifier, text: b.name }))
 const dropdownStyles: Partial<IDropdownStyles> = {
-  dropdown: { width: 300 },
+  root: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  }
 };
-const datePickerStyles = mergeStyleSets({
-  root: { selectors: { '> *': { marginBottom: 15 } } },
-  control: { maxWidth: 300, marginBottom: 15 },
-});
+
 function App() {
   initializeIcons();
   const add: IIconProps = { iconName: 'CalculatorAddition' };
@@ -76,7 +74,6 @@ function App() {
           label="Date "
           placeholder={dPData.max.toDateString()}
           ariaLabel="Select a date"
-          className={datePickerStyles.control}
           initialPickerDate={dPData.max}
           minDate={dPData.min}
           maxDate={dPData.max}
@@ -89,22 +86,24 @@ function App() {
             )
           }}
         />
-        <IconButton
-          iconProps={add}
-          title="Zoom In"
-          ariaLabel="Zoom In"
-          disabled={false}
-          checked={false}
-          onClick={mapZoom.zoomIn}
-        />
-        <IconButton
-          iconProps={minuz}
-          title="Zoom Out"
-          ariaLabel="Zoom Out"
-          disabled={false}
-          checked={false}
-          onClick={mapZoom.zoomOut}
-        />
+        <div className='d'>
+          <IconButton
+            iconProps={add}
+            title="Zoom In"
+            ariaLabel="Zoom In"
+            disabled={false}
+            checked={false}
+            onClick={mapZoom.zoomIn}
+          />
+          <IconButton
+            iconProps={minuz}
+            title="Zoom Out"
+            ariaLabel="Zoom Out"
+            disabled={false}
+            checked={false}
+            onClick={mapZoom.zoomOut}
+          />
+        </div>
       </div>
       <div className='message-bar'>
         <h1>View
@@ -114,14 +113,10 @@ function App() {
           <dt>Current Visualization</dt>
           <dd>{gibsVis.getVis().name}</dd>
         </dl>
+        <a href="https://github.com/JoseHerminioCollas/viewgibs.world">x
+          <img src="" />
+        </a>
       </div>
-      {/* <MessageBar className='message-bar'>
-        <h1>View GIBS Visualizations</h1>
-        <dl>
-          <dt>Current Visualization</dt>
-          <dd>{gibsVis.getVis().name}</dd>
-        </dl>
-      </MessageBar> */}
     </div>
   );
 }
