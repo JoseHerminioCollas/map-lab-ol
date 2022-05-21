@@ -49,7 +49,7 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
- }
+}
 
 .message-bar h1 {
   font-size: 1em;
@@ -78,6 +78,11 @@
   font-size: 0.9em;
   margin: 1em;
 }
+
+.message-bar a {
+  margin-left: auto;
+}
+
 /* the FluentUI style does not account for the scenario 
 use the class: .ms-TextField-wrapper */
 .ms-TextField-wrapper {
