@@ -113,8 +113,8 @@ function App() {
           <dt>Current Visualization</dt>
           <dd>{gibsVis.getVis().name}</dd>
         </dl>
-        <a href="https://github.com/JoseHerminioCollas/viewgibs.world">x
-          <img src="" />
+        <a href="https://github.com/JoseHerminioCollas/viewgibs.world" target="new">
+          <img src="octocat-small.png" />
         </a>
       </div>
     </div>

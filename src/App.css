@@ -44,20 +44,26 @@
 }
 
 .message-bar {
-  background: #eee;
-  padding: 0.5em;
-}
+  /* background: #eee; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+ }
 
 .message-bar h1 {
   font-size: 1em;
   display: inline;
-  padding: 0 1em;
+  margin: 0 0.5em;
   background-color: #ccc;
+  padding: 1em;
+  border-radius: 4%;
 }
 
 .message-bar dl {
-  padding: 0.25em;
   display: inline;
+  margin: 0 0.5em;
+  padding: 5px;
 }
 
 .message-bar dt {
@@ -69,8 +75,8 @@
 
 .message-bar dd {
   display: inline;
-  margin: 0.5em;
   font-size: 0.9em;
+  margin: 1em;
 }
 /* the FluentUI style does not account for the scenario 
 use the class: .ms-TextField-wrapper */
