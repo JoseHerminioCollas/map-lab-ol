@@ -52,11 +52,12 @@
 }
 
 .message-bar h1 {
+  display: flex;
+  align-items: center;
   font-size: 1em;
-  display: inline;
   margin: 0 0.5em;
   background-color: #ccc;
-  padding: 1em;
+  padding: 0.5em;
   border-radius: 4%;
 }
 
@@ -82,7 +83,9 @@
 .message-bar a {
   margin-left: auto;
 }
-
+.message-bar img {
+  padding: 0 0 0 0.75em;
+}
 /* the FluentUI style does not account for the scenario 
 use the class: .ms-TextField-wrapper */
 .ms-TextField-wrapper {

@@ -1,6 +1,10 @@
-# [viewgibs.world](https://viewgibs.world)
+# viewgibs.world 
 
-Viewgibs.world is a tool for viewing the visualizations provided by NASA's Global Imagery Browse Services (GIBS) system.
+# [https://viewgibs.world](https://viewgibs.world) : Satellite Image Navigator
+
+<img width="250px" src='public/drawing.svg'>
+
+Viewgibs.world is a tool for viewing satellite images provided by NASA's Global Imagery Browse Services (GIBS) system.
 
 Documentation for GIBS can be found here: 
 [https://nasa-gibs.github.io/gibs-api-docs/](https://nasa-gibs.github.io/gibs-api-docs/)

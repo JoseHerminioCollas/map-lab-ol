@@ -108,7 +108,8 @@ function App() {
       <div className='message-bar'>
         <h1>View
           <a href='https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-components/gibs'> GIBS </a>
-          Visualizations</h1>
+          Visualizations <img width="35px" src='drawing.svg' />
+          </h1>
         <dl>
           <dt>Current Visualization</dt>
           <dd>{gibsVis.getVis().name}</dd>
