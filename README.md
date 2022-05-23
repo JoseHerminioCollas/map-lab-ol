@@ -2,7 +2,7 @@
 
 # [https://viewgibs.world](https://viewgibs.world) : Satellite Image Navigator
 
-<img width="250px" src='public/drawing.svg'>
+<img width="250px" src='public/logo.svg'>
 
 Viewgibs.world is a tool for viewing satellite images provided by NASA's Global Imagery Browse Services (GIBS) system.
 
@@ -25,6 +25,9 @@ Ideally, the usefulness of this simplified application will provide users with a
 * [Fluent UI](https://developer.microsoft.com/en-us/fluentui)
 * [OpenLayers](https://openlayers.org/)
 * [RxJS](https://rxjs.dev/)
+* [ImageMagick](https://imagemagick.org)
+* [InkScape](https://inkscape.org/)
+* [Gimp](https://www.gimp.org/)
 
 
 The map is a single React component. This component takes the values it needs to display the correct map, its location, and zoom. It wraps the mapping library OpenLayers which provides much of the functionality for the map.
@@ -32,6 +35,15 @@ The map is a single React component. This component takes the values it needs to
 RxJS is used to deliver the messages and commands from one component to another component.
 
 Fluent UI is used as the component library. Ideally, the flexibility and functionality of a component library like Fluent UI will provide the user with an easy-to-use interface for navigating the satellite imagery.
+
+Image Magick is used to create the favicon.ico
+
+[Favicons with ImageMagick](https://nedbatchelder.com/blog/202012/favicons_with_imagemagick.html)
+```
+convert -background transparent "art/logo-5-23-2022.png" -define icon:auto-resize=16,24,32,48,64,72,96,128,256 "favicon.ico"
+```
+
+Inkscape and Gimp have been used to generate the icon
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
