@@ -1,4 +1,4 @@
-import { Visualization } from "../control/GIBSVis";
+import { Visualization } from "control/GIBSVis";
 
 export interface Gibs {
     [key: string]: Visualization

@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import gibs, { Gibs } from '../data/gibs';
+import gibs, { Gibs } from 'data/gibs';
 
 export type Day = [number, number, number]
 export interface Visualization {

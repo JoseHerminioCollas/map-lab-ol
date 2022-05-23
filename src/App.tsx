@@ -4,12 +4,12 @@ import { IconButton } from '@fluentui/react/lib/Button';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { Dropdown, IDropdownStyles } from '@fluentui/react/lib/Dropdown';
 import { DatePicker, defaultDatePickerStrings } from '@fluentui/react';
-import './App.css';
-import Map from './components/Map';
-import tileUrls from './data/tile-urls';
-import mapCenter from './control/map-center';
-import mapZoom from './control/map-zoom';
-import mapSource from './control/map-source';
+import 'App.css';
+import Map from 'components/Map';
+import tileUrls from 'data/tile-urls';
+import mapCenter from 'control/map-center';
+import mapZoom from 'control/map-zoom';
+import mapSource from 'control/map-source';
 import gibsVis from 'control/GIBSVis';
 
 const gibsVisOptions = Object.entries(gibsVis.getAll())

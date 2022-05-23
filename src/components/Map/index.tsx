@@ -5,9 +5,9 @@ import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import * as olInteraction from 'ol/interaction';
-import { MapCenter } from '../../control/map-center';
-import { MapZoom } from '../../control/map-zoom';
-import { MapSourceService } from '../../control/map-source';
+import { MapCenter } from 'control/map-center';
+import { MapZoom } from 'control/map-zoom';
+import { MapSourceService } from 'control/map-source';
 
 type IMap = {
   ({ id, center, zoom, tileUrl, mapSource }:
