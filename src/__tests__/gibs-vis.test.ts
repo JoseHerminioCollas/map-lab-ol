@@ -1,4 +1,7 @@
+import { DayOfWeek } from '@fluentui/react';
+import exp from 'constants';
 import gibsVis, { Day } from 'control/GIBSVis';
+import gibs from 'data/gibs';
 
 const id = 'MODIS_Terra_CorrectedReflectance_TrueColor'
 const id2 = 'VIIRS_SNPP_CorrectedReflectance_TrueColor'
@@ -26,15 +29,33 @@ describe("GIBSVis", () => {
         gibsVis.setDay(expectedDay)
         expect(gibsVis.getDay()).toBe(expectedDay)
     })
+    test('GetSourceUrl should reflect changes in the Visualization', () => {
+        gibsVis.setVis(id)
+        const c = gibsVis.getSourceUrl().includes(id)
+        expect(c).toBe(true)
+        gibsVis.setVis(id2)
+        const d = gibsVis.getSourceUrl().includes(id2)
+        expect(d).toBe(true)
+    })
+    test('ListenSourceUrl should reflect the value that has been set', () => {
+        gibsVis.setVis(id)
+        return new Promise((res: (arg: string) => void, rej) => {
+            gibsVis.listenSourceUrl(v => {
+                res(v)
+            })
+        }).then(v => expect(v.includes(id)).toBe(true))
+    })
+    test('setVis and getMinMax have the same values', () => {
+        const all = gibsVis.getAll()
+        gibsVis.setVis(id)
+        const expectedStartDay = new Date(all[id].period.start.join('-')).getTime()
+        const actualStartDay = new Date(gibsVis.getMinMax().min).getTime()
+        expect(expectedStartDay).toBe(actualStartDay)
+        const end = typeof all[id].period.end === 'string' ? new Date() : new Date((all[id].period.end as Day).join('-'))
+        const expectedEndDay = new Date(end).getTime()
+        const actualEndDay = new Date(gibsVis.getMinMax().max).getTime()
+        expect(expectedEndDay).toBe(actualEndDay)
+    })
 })
 
-// getVis: GetVis XXX
-// listenVis: ListenVis XXX
-// setVis: Set XXX
-// setDay: SetDay XXX
-// getDay: GetDay XXX
-// getAll: GetAll XXX
-// getSourceUrl: GetSourceUrl
-// getMinMax: GetMinMax
-// listenSourceUrl: ListenSourceUrl
 // listenMinMax: ListenMinMax
