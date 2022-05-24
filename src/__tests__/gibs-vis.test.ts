@@ -1,5 +1,3 @@
-import { DayOfWeek } from '@fluentui/react';
-import exp from 'constants';
 import gibsVis, { Day } from 'control/GIBSVis';
 import gibs from 'data/gibs';
 
@@ -55,6 +53,19 @@ describe("GIBSVis", () => {
         const expectedEndDay = new Date(end).getTime()
         const actualEndDay = new Date(gibsVis.getMinMax().max).getTime()
         expect(expectedEndDay).toBe(actualEndDay)
+    })
+    test('setVis and listenMinMax should have the same values', () => {
+        const all = gibsVis.getAll()
+        gibsVis.setVis(id)
+        const expectedStartDay = new Date(all[id].period.start.join('-')).toISOString()
+        const end = typeof all[id].period.end === 'string' ? new Date() : new Date((all[id].period.end as Day).join('-'))
+        const expectedEndDay = new Date(end).toISOString()
+        return new Promise((res, rej) => {
+            gibsVis.listenMinMax(v => res(v))
+        }).then((v: any) => {
+            expect(v.min.toISOString()).toBe(expectedStartDay)
+            expect(v.max.toISOString()).toBe(expectedEndDay)
+        })
     })
 })
 
