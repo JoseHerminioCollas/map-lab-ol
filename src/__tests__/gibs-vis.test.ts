@@ -24,7 +24,7 @@ describe("GIBSVis", () => {
     test('setDay and getDay have the same value', () => {
         const expectedDay: Day = [2022, 1, 1]
         gibsVis.setDay(expectedDay)
-        expect(gibsVis.getDay()).toBe([expectedDay])
+        expect(gibsVis.getDay()).toBe(expectedDay)
     })
 })
 
