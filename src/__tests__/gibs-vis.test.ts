@@ -1,4 +1,4 @@
-import gibsVis, { PRESENT } from 'control/GIBSVis';
+import gibsVis, { PRESENT, MinMaxDates, StartEndDates } from 'control/GIBSVis';
 import gibs from 'data/gibs';
 
 const gibsId = 'MODIS_Terra_CorrectedReflectance_TrueColor'
@@ -37,15 +37,16 @@ describe("GIBSVis", () => {
         const d = gibsVis.getSourceUrl().includes(gibsId2)
         expect(d).toBe(true)
     })
-    test('should set the Visualization and listen to the value that has been set', () => {
+    test('should set the Visualization. listen to the sourceUrl that corresponds to the Visualizaion', async () => {
         gibsVis.setVis(gibsId)
-        return new Promise((res: (arg: string) => void, rej) => {
-            gibsVis.listenSourceUrl(v => {
-                res(v)
-            })
-        }).then(v => expect(v.includes(gibsId)).toBe(true))
+        const actual: string = await new Promise((res, rej) => {
+            try {
+                gibsVis.listenSourceUrl(sU => res(sU))
+            } catch (e) { rej(e) }
+        })
+        expect(actual.includes(gibsId)).toBe(true)
     })
-    test('should set the Visualization and get the corresponding values', () => {
+    test('should set the Visualization and get the corresponding minMax values', () => {
         const all = gibsVis.getAll()
         gibsVis.setVis(gibsId)
         const actualStartDay = new Date(gibsVis.getMinMax().min).toISOString()
@@ -55,16 +56,18 @@ describe("GIBSVis", () => {
         const expectedEndDay = all[gibsId].period.end === PRESENT ? new Date().toISOString().slice(0, 10) : all[gibsId].period.end
         expect(actualEndDay).toBe(expectedEndDay)
     })
-    test('should set the Visualization and listenMinMax should have the corresponding values', () => {
+    test('should set the Visualization and listenMinMax should have the corresponding values', async () => {
         const all = gibsVis.getAll()
         gibsVis.setVis(gibsId)
-        const expectedStartDay = all[gibsId].period.start
-        const expectedEndDay =  all[gibsId].period.end === PRESENT ? new Date().toISOString() : all[gibsId].period.end
-        return new Promise((res, rej) => {
-            gibsVis.listenMinMax(v => res(v))
-        }).then((v: any) => {
-            expect(v.min.toISOString()).toBe(expectedStartDay)
-            expect(v.max.toISOString()).toBe(expectedEndDay)
+        const period: StartEndDates = all[gibsId].period
+        const expectedStartDay = period.start
+        const expectedEndDay = period.end === PRESENT ? new Date().toISOString() : period.end
+        const actual: MinMaxDates = await new Promise((res, rej) => {
+            try {
+                gibsVis.listenMinMax(mm => res(mm))
+            } catch (e) { rej(e) }
         })
+        expect(actual.min.toISOString()).toBe(expectedStartDay)
+        expect(actual.max.toISOString()).toBe(expectedEndDay)
     })
 })

@@ -2,7 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import gibs, { Gibs } from 'data/gibs';
 
-interface MinMaxDate {
+export interface StartEndDates {
     start: string
     end: string
 }
@@ -11,7 +11,7 @@ export interface Visualization {
     identifier: string
     platform?: string
     instrument?: string[]
-    period: MinMaxDate
+    period: StartEndDates
     projection?: string[]
     resolution?: string
     format?: string
@@ -26,7 +26,7 @@ type GetDay = () => string
 type GetAll = () => Gibs;
 type ListenSourceUrl = (listener: (sourceUrl: string) => void) => void
 type ListenVis = (listener: (vis: Visualization) => void) => void
-interface MinMaxDates { min: Date, max: Date }
+export interface MinMaxDates { min: Date, max: Date }
 type ListenMinMax = (listener: (minMax: MinMaxDates) => void) => void
 type GetMinMax = () => MinMaxDates
 export interface GIBSVisI {
