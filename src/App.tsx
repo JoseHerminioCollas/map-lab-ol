@@ -81,9 +81,7 @@ function App() {
           strings={defaultDatePickerStrings}
           onSelectDate={date => {
             if (!date) return
-            gibsVis.setDay(
-              [date.getFullYear(), date.getMonth() + 1, date.getDate()]
-            )
+            gibsVis.setDay(date.toISOString())
           }}
         />
         <div className='d'>
@@ -109,7 +107,7 @@ function App() {
         <h1>View
           <a href='https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-components/gibs'> GIBS </a>
           Visualizations <img width="35px" src='logo.svg' />
-          </h1>
+        </h1>
         <dl>
           <dt>Current Visualization</dt>
           <dd>{gibsVis.getVis().name}</dd>

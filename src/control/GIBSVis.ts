@@ -2,13 +2,16 @@ import { BehaviorSubject } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import gibs, { Gibs } from 'data/gibs';
 
-export type Day = [number, number, number]
+interface MinMaxDate {
+    start: string
+    end: string
+}
 export interface Visualization {
     name: string
     identifier: string
     platform?: string
     instrument?: string[]
-    period: { start: Day, end: Day | string }
+    period: MinMaxDate
     projection?: string[]
     resolution?: string
     format?: string
@@ -18,8 +21,8 @@ export interface Visualization {
 type GetSourceUrl = () => string;
 type Set = (identifier: string) => void
 type GetVis = () => Visualization
-type SetDay = (day: Day) => void
-type GetDay = () => Day
+type SetDay = (day: string) => void
+type GetDay = () => string
 type GetAll = () => Gibs;
 type ListenSourceUrl = (listener: (sourceUrl: string) => void) => void
 type ListenVis = (listener: (vis: Visualization) => void) => void
@@ -41,24 +44,24 @@ export interface GIBSVisI {
 const gibsVis$: BehaviorSubject<Visualization> = new BehaviorSubject(
     gibs.MODIS_Aqua_CorrectedReflectance_Bands721,
 )
-const day$: BehaviorSubject<Day> = new BehaviorSubject([2022, 5, 5]) // TODO set according to selected Vis
+const day$: BehaviorSubject<string> = new BehaviorSubject('2022-05-25T02:03:52.120Z') // TODO set according to selected Vis
 const sourceUrl$: BehaviorSubject<string> = new BehaviorSubject('NONE')
+export const PRESENT = 'present'
 const getMaxDate = () => {
-    if (gibsVis$.value.period.end === 'present') return new Date()
-    const day = gibsVis$.value.period.end as Day // force as a Day type
-    return new Date(day.join('-'))
+    if (gibsVis$.value.period.end === PRESENT) return new Date()
+    const day = gibsVis$.value.period.end
+    return new Date(day)
 }
-const getMinDate = () => new Date(gibsVis$.value.period.start.join('-'))
+const getMinDate = () => new Date(gibsVis$.value.period.start)
 const initMMDate = { min: getMinDate(), max: getMaxDate() }
 const minMaxDate$ = new BehaviorSubject<MinMaxDates>(initMMDate)
 const getMinMax: GetMinMax = () => minMaxDate$.value
 gibsVis$.pipe(
     mergeMap(gibsVis => day$.pipe(
-        // force the return type here, why doen't this get set?
-        map(day => [gibsVis, day] as [Visualization, [number, number, number]]))
+        map(day => [gibsVis, day] as [Visualization, string]))
     )
 ).subscribe(([visualization, day]) => {
-    const dayStr = `${day[0].toString()}-${day[1].toString().padStart(2, '0')}-${day[2].toString().padStart(2, '0')}`
+    const dayStr = day.slice(0, 10)
     const fullUrl = `https://gibs-{a-c}.earthdata.nasa.gov/wmts/epsg3857/best/${visualization.identifier}/default/${dayStr}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`
     sourceUrl$.next(fullUrl)
     minMaxDate$.next({ min: getMinDate(), max: getMaxDate() })
