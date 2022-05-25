@@ -5,31 +5,31 @@ const gibsId = 'MODIS_Terra_CorrectedReflectance_TrueColor'
 const gibsId2 = 'VIIRS_SNPP_CorrectedReflectance_TrueColor'
 
 describe("GIBSVis", () => {
-    test('getAll returns an array with elements', () => {
+    test('should return an array of Visualization with elements', () => {
         const value = Object.values(gibsVis.getAll());
         expect(value.length).toBeGreaterThan(1);
     });
-    test("GIBSVis sets and listens to the value of the Visual object", async () => {
+    test("should set and listen to the set value of the Visual object", async () => {
         [gibsId, gibsId2].forEach(async id => {
             gibsVis.setVis(id)
-            const expected = await new Promise((res, rej) => {
+            const actual = await new Promise((res, rej) => {
                 try {
                     gibsVis.listenVis(v => res(v.identifier))
                 } catch (e) { rej(e) }
             })
-            expect(expected).toBe(id)
+            expect(actual).toBe(id)
         })
     })
-    test('setVis and getVis should have the same value', () => {
+    test('should set the Visualization value and get the same value', () => {
         gibsVis.setVis(gibsId)
         expect(gibsVis.getVis().identifier).toBe(gibsId)
     })
-    test('setDay and getDay have the same value', () => {
+    test('should set the day and get the same day', () => {
         const expectedDay = new Date().toISOString()
         gibsVis.setDay(expectedDay)
         expect(gibsVis.getDay()).toBe(expectedDay)
     })
-    test('GetSourceUrl should reflect changes in the Visualization', () => {
+    test('should set the Visualization and get the correct sourceUrl', () => {
         gibsVis.setVis(gibsId)
         const c = gibsVis.getSourceUrl().includes(gibsId)
         expect(c).toBe(true)
@@ -37,7 +37,7 @@ describe("GIBSVis", () => {
         const d = gibsVis.getSourceUrl().includes(gibsId2)
         expect(d).toBe(true)
     })
-    test('ListenSourceUrl should reflect the value that has been set', () => {
+    test('should set the Visualization and listen to the value that has been set', () => {
         gibsVis.setVis(gibsId)
         return new Promise((res: (arg: string) => void, rej) => {
             gibsVis.listenSourceUrl(v => {
@@ -45,17 +45,17 @@ describe("GIBSVis", () => {
             })
         }).then(v => expect(v.includes(gibsId)).toBe(true))
     })
-    test('setVis and getMinMax have the same values', () => {
+    test('should set the Visualization and get the corresponding values', () => {
         const all = gibsVis.getAll()
         gibsVis.setVis(gibsId)
         const actualStartDay = new Date(gibsVis.getMinMax().min).toISOString()
         const expectedStartDay = all[gibsId].period.start
         expect(actualStartDay).toBe(expectedStartDay)
-        const actualEndDay = gibsVis.getMinMax().max.toISOString()
-        const expectedEndDay = all[gibsId].period.end === PRESENT ? new Date().toISOString() : all[gibsId].period.end
+        const actualEndDay = gibsVis.getMinMax().max.toISOString().slice(0, 10)
+        const expectedEndDay = all[gibsId].period.end === PRESENT ? new Date().toISOString().slice(0, 10) : all[gibsId].period.end
         expect(actualEndDay).toBe(expectedEndDay)
     })
-    test('setVis and listenMinMax should have the same values', () => {
+    test('should set the Visualization and listenMinMax should have the corresponding values', () => {
         const all = gibsVis.getAll()
         gibsVis.setVis(gibsId)
         const expectedStartDay = all[gibsId].period.start
