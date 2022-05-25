@@ -60,14 +60,14 @@ describe("GIBSVis", () => {
         const all = gibsVis.getAll()
         gibsVis.setVis(gibsId)
         const period: StartEndDates = all[gibsId].period
-        const expectedStartDay = period.start
-        const expectedEndDay = period.end === PRESENT ? new Date().toISOString() : period.end
+        const expectedStartDay = period.start.slice(0, 10)
+        const expectedEndDay = period.end === PRESENT ? new Date().toISOString().slice(0, 10) : period.end
         const actual: MinMaxDates = await new Promise((res, rej) => {
             try {
                 gibsVis.listenMinMax(mm => res(mm))
             } catch (e) { rej(e) }
         })
-        expect(actual.min.toISOString()).toBe(expectedStartDay)
-        expect(actual.max.toISOString()).toBe(expectedEndDay)
+        expect(actual.min.toISOString().slice(0, 10)).toBe(expectedStartDay)
+        expect(actual.max.toISOString().slice(0, 10)).toBe(expectedEndDay)
     })
 })
