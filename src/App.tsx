@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { IIconProps } from '@fluentui/react';
-import { IconButton } from '@fluentui/react/lib/Button';
+import {
+  FontIcon,
+  IIconProps,
+  mergeStyles,
+  DatePicker,
+  defaultDatePickerStrings,
+  IconButton,
+  Dropdown,
+  IDropdownStyles,
+  Modal,
+} from '@fluentui/react';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
-import { Dropdown, IDropdownStyles } from '@fluentui/react/lib/Dropdown';
-import { DatePicker, defaultDatePickerStrings } from '@fluentui/react';
 import 'App.css';
 import Map from 'components/Map';
 import tileUrls from 'data/tile-urls';
@@ -21,6 +28,29 @@ const dropdownStyles: Partial<IDropdownStyles> = {
     flexWrap: 'wrap',
   }
 };
+const infoIconClass = mergeStyles({
+  fontSize: 25,
+  fontWeight: 900,
+  height: 25,
+  width: 25,
+  margin: '0 0.35em',
+  cursor: 'pointer',
+});
+const modalClass = mergeStyles({
+  background: '#eee',
+  borderRadius: '1em',
+  margin: '0 0.35em',
+  maxWidth: 500,
+  maxHeight: 600,
+});
+const cancelIconClass = mergeStyles({
+  fontSize: 25,
+  fontWeight: 900,
+  height: 25,
+  width: 25,
+  margin: '0 0.35em',
+  cursor: 'pointer',
+});
 
 function App() {
   initializeIcons();
@@ -29,6 +59,7 @@ function App() {
   const gibsMapSource = mapSource(gibsVis.getSourceUrl())
   const navMapSource = mapSource(tileUrls.NatGeo_World_Map.url)
   const [dPData, setDPData] = useState(gibsVis.getMinMax())
+  const [isModalOpen, setIsModalOpen] = useState(false)
   useEffect(() => {
     gibsVis.listenSourceUrl(vis => {
       gibsMapSource.set(vis);
@@ -40,6 +71,68 @@ function App() {
 
   return (
     <div className="App">
+      <Modal
+        titleAriaId='Goatstone Information'
+        onDismiss={() => setIsModalOpen(false)}
+        isOpen={isModalOpen}
+        isBlocking={false}
+        containerClassName={modalClass}
+      >
+        <div className='modal-header'>
+          <h3>View GIBS</h3>
+          <FontIcon
+            onClick={() => setIsModalOpen(false)}
+            aria-label="Close Window"
+            iconName="cancel"
+            className={cancelIconClass}
+          />
+        </div>
+        <article className='modal-article'>
+          <img width="75px" src='logo.svg' />
+
+          <p>
+            View GIBS is a tool for viewing satellite images provided by NASA's Global Imagery Browse Services (GIBS) system.
+            <br />
+            <a href="https://nasa-gibs.github.io/gibs-api-docs/" >
+              GIBS : https://nasa-gibs.github.io/gibs-api-docs
+            </a>
+          </p>
+          <p>
+            View GIBS (https://viewgibs.world) is a simplified version of the Worldview application located at:
+            &nbsp;<a href="https://worldview.earthdata.nasa.gov/">
+              https://worldview.earthdata.nasa.gov/
+            </a>
+          </p>
+          <p>
+            Ideally, the usefulness of this simplified application will provide users with an optional tool that will provide useful variants for searching and viewing the satellite imagery.
+          </p>
+          <h5>Users can :</h5>
+          <ul>
+            <li>
+              Use a geographic map to navigate a satellite map with drag click and double click
+            </li>
+            <li>
+              Navigate the satellite map
+            </li>
+            <li>
+              Select from a sub group of the NASA visualizations available.
+            </li>
+            <li>
+              Select the day the image was taken
+            </li>
+          </ul>
+          <p>
+            As the user navigates either map both the satellite and geographic maps' locations remain in sync.
+          </p>
+          <p>
+            View Gibs is developed by
+            &nbsp;<a
+              href="https://goatstone.com"
+              target="new"
+            >Goatstone</a> ( 2022 &copy; )
+          </p>
+        </article>
+      </Modal>
       <div className='a'>
         <Map
           id={30}
@@ -104,9 +197,17 @@ function App() {
         </div>
       </div>
       <div className='message-bar'>
-        <h1>View
-          <a href='https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-components/gibs'> GIBS </a>
-          Visualizations <img width="35px" src='logo.svg' />
+        <img width="35px" src='logo.svg' />
+        <h1>
+          View
+          &nbsp;<a href='https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-components/gibs' target="new">
+            GIBS
+          </a>&nbsp;
+          <FontIcon
+            onClick={() => setIsModalOpen(true)}
+            aria-label="Information"
+            iconName="info"
+            className={infoIconClass} />
         </h1>
         <dl>
           <dt>Current Visualization</dt>
