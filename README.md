@@ -1,6 +1,5 @@
-# viewgibs.world 
-
-# [https://viewgibs.world](https://viewgibs.world) : Satellite Image Navigator
+# View GIBS [https://viewgibs.world](https://viewgibs.world)
+# Satellite Image Navigator
 
 <img width="250px" src='public/logo.svg'>
 
@@ -12,6 +11,9 @@ Documentation for GIBS can be found here:
 Viewgibs.world is a simplified version of the Worldview application located at: [https://worldview.earthdata.nasa.gov/](https://worldview.earthdata.nasa.gov/)
 
 Ideally, the usefulness of this simplified application will provide users with an optional tool that will provide useful variants for searching and viewing the satellite imagery.
+
+### The application View GIBS:
+<img src="art/view-gibs-app.png" alt="gibs view application" style="width:500px;"/>
 
 ## Development
 
