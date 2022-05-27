@@ -109,7 +109,7 @@ function App() {
           <h5>Users can :</h5>
           <ul>
             <li>
-              Use a geographic map to navigate a satellite map with drag click and double click
+              Use a geographic map to navigate a satellite map with drag, click and double click
             </li>
             <li>
               Navigate the satellite map
