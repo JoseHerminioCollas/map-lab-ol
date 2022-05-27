@@ -60,14 +60,14 @@ const Map: IMap = ({ id, center, zoom, tileUrl, mapSource }) => {
     center.addEventListener(center => {
       map.getView().setCenter(center)
     }, id)
-    const sub = mapSource.listen((source: string) => {
+    const mapSourceSub = mapSource.listen((source: string) => {
       map.addLayer(new TileLayer({
         source: new XYZ({
           url: source,
         }),
       }));
     })
-    return () => { sub.unsubscribe() }
+    return () => { mapSourceSub.unsubscribe() }
   }, [center, id, tileUrl])
 
   return (

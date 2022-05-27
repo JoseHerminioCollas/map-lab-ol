@@ -61,12 +61,13 @@ function App() {
   const [dPData, setDPData] = useState(gibsVis.getMinMax())
   const [isModalOpen, setIsModalOpen] = useState(false)
   useEffect(() => {
-    gibsVis.listenSourceUrl(vis => {
+    const sourceUrlSub = gibsVis.listenSourceUrl(vis => {
       gibsMapSource.set(vis);
     })
-    gibsVis.listenMinMax(mm => {
+    const minMaxSub = gibsVis.listenMinMax(mm => {
       setDPData(mm)
     })
+    return () => { sourceUrlSub.unsubscribe(); minMaxSub.unsubscribe() }
   }, [gibsMapSource])
 
   return (

@@ -24,10 +24,10 @@ type GetVis = () => Visualization
 type SetDay = (day: string) => void
 type GetDay = () => string
 type GetAll = () => Gibs;
-type ListenSourceUrl = (listener: (sourceUrl: string) => void) => void
-type ListenVis = (listener: (vis: Visualization) => void) => void
+type ListenSourceUrl = (listener: (sourceUrl: string) => void) => { unsubscribe: () => void }
+type ListenVis = (listener: (vis: Visualization) => void) => { unsubscribe: () => void }
 export interface MinMaxDates { min: Date, max: Date }
-type ListenMinMax = (listener: (minMax: MinMaxDates) => void) => void
+type ListenMinMax = (listener: (minMax: MinMaxDates) => void) => { unsubscribe: () => void }
 type GetMinMax = () => MinMaxDates
 export interface GIBSVisI {
     getVis: GetVis
